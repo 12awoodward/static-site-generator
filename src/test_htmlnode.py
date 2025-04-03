@@ -17,6 +17,11 @@ class TestHTMLNode(unittest.TestCase):
         node = HTMLNode(children=[HTMLNode()])
         txt = "HMTLNode(tag=None|props=None|value=None|children=[HMTLNode(tag=None|props=None|value=None|children=None)])"
         self.assertEqual(str(node), txt)
+
+    def test_props_to_html(self):
+        node = HTMLNode(props={"a":"value","href":"/link/"})
+        txt = ' a="value" href="/link/"'
+        self.assertEqual(node.props_to_html(), txt)
         
 
 if __name__ == "__main__":
