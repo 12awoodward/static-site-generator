@@ -3,6 +3,40 @@ import unittest
 from functions import *
 
 class TestFunctions(unittest.TestCase):
+    def test_split_nodes_bold(self):
+        node = TextNode("Some **bold** text", TextType.NORMAL)
+        new_nodes = split_nodes_delimiter([node], "**", TextType.BOLD)
+        result = [
+            TextNode("Some ", TextType.NORMAL),
+            TextNode("bold", TextType.BOLD),
+            TextNode(" text", TextType.NORMAL)
+        ]
+        self.assertEqual(new_nodes, result)
+
+    def test_split_nodes_italic(self):
+        node = TextNode("Some _italic_ text", TextType.NORMAL)
+        new_nodes = split_nodes_delimiter([node], "_", TextType.ITALIC)
+        result = [
+            TextNode("Some ", TextType.NORMAL),
+            TextNode("italic", TextType.ITALIC),
+            TextNode(" text", TextType.NORMAL)
+        ]
+        self.assertEqual(new_nodes, result)
+
+    def test_split_nodes_code(self):
+        node = TextNode("Some `code` text", TextType.NORMAL)
+        new_nodes = split_nodes_delimiter([node], "`", TextType.CODE)
+        result = [
+            TextNode("Some ", TextType.NORMAL),
+            TextNode("code", TextType.CODE),
+            TextNode(" text", TextType.NORMAL)
+        ]
+        self.assertEqual(new_nodes, result)
+
+    def test_split_nodes_error(self):
+        node = TextNode("some _text", TextType.NORMAL)
+        self.assertRaises(Exception, split_nodes_delimiter, node, "_", TextType.ITALIC)
+
     def test_text_to_html_normal(self):
         node = TextNode("This is a text node", TextType.NORMAL)
         html_node = text_node_to_hmtl_node(node)
