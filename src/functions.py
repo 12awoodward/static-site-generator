@@ -70,16 +70,16 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
             if new_txt[-len(delimiter):] == delimiter:
                 new_txt = new_txt[:-len(delimiter)]
                 if inside_delim:
-                    new_nodes.append(TextNode(new_txt, text_type, node.url))
+                    new_nodes.append(TextNode(new_txt, text_type))
                 else:
-                    new_nodes.append(TextNode(new_txt, TextType.NORMAL, node.url))
+                    new_nodes.append(TextNode(new_txt, TextType.NORMAL))
                 inside_delim = not inside_delim
                 new_txt = ""
 
         if inside_delim:
             raise Exception("missing closing delimiter from: " + new_txt)
         if len(new_txt) > 0:
-            new_nodes.append(TextNode(new_txt, TextType.NORMAL, node.url))
+            new_nodes.append(TextNode(new_txt, TextType.NORMAL))
     
     return new_nodes
 
@@ -94,12 +94,8 @@ def text_node_to_hmtl_node(text_node):
         case TextType.CODE:
             return LeafNode("code", text_node.text)
         case TextType.LINK:
-            txt = text_node.text[1:text_node.text.index("]")]
-            href = text_node.text[text_node.text.index("(") + 1:-1]
-            return LeafNode("a", txt, {"href": href})
+            return LeafNode("a", text_node.text, {"href": text_node.url})
         case TextType.IMAGE:
-            txt = text_node.text[2:text_node.text.index("]")]
-            src = text_node.text[text_node.text.index("(") + 1:-1]
-            return LeafNode("img", "", {"src": src, "alt": txt})
+            return LeafNode("img", "", {"src": text_node.url, "alt": text_node.text})
         case _:
             raise Exception("invalid text type")
