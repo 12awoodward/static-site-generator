@@ -3,6 +3,16 @@ import unittest
 from functions import *
 
 class TestFunctions(unittest.TestCase):
+    def test_markdown_to_blocks(self):
+        md = "This is **bolded** paragraph\n\nThis is another paragraph with _italic_ text and `code` here\nThis is the same paragraph on a new line\n\n- This is a list\n- with items"
+        blocks = markdown_to_blocks(md)
+        result = [
+            "This is **bolded** paragraph",
+            "This is another paragraph with _italic_ text and `code` here\nThis is the same paragraph on a new line",
+            "- This is a list\n- with items",
+        ]
+        self.assertEqual(blocks, result)
+
     def test_text_to_textnodes(self):
         nodes = text_to_textnodes("This is **text** with an _italic_ word and a `code block` and an ![obi wan image](https://i.imgur.com/fJRm4Vk.jpeg) and a [link](https://boot.dev)")
         result = [

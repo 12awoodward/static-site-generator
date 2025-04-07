@@ -5,6 +5,14 @@ from parentnode import *
 
 import re
 
+def markdown_to_blocks(markdown):
+    blocks = []
+    for block in markdown.split("\n\n"):
+        block = block.strip()
+        if block:
+            blocks.append(block)
+    return blocks
+
 def text_to_textnodes(text):
     delim_types = [("**", TextType.BOLD), ("_", TextType.ITALIC), ("`", TextType.CODE)]
 
