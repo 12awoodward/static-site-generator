@@ -2,8 +2,7 @@ import unittest
 
 from block_functions import *
 
-class TestInlineFunctions(unittest.TestCase):
-    # PARAGRAPH HEADING CODE QUOTE UNORDERED_LIST ORDERED_LIST
+class TestBlockFunctions(unittest.TestCase):
     def test_block_to_block_type_paragraph(self):
         block = "some text\nin a paragraph"
         self.assertEqual(block_to_block_type(block), BlockType.PARAGRAPH)
