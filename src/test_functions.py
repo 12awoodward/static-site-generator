@@ -3,6 +3,16 @@ import unittest
 from functions import *
 
 class TestFunctions(unittest.TestCase):
+    def test_extract_markdown_images(self):
+        text = "some text ![an image](/a-link/) more text [a link](/url/)"
+        result = extract_markdown_images(text)
+        self.assertEqual(result, [("an image", "/a-link/")])
+
+    def test_extract_markdown_links(self):
+        text = "some text ![an image](/a-link/) more text [a link](/url/)"
+        result = extract_markdown_links(text)
+        self.assertEqual(result, [("a link", "/url/")])
+
     def test_split_nodes_bold(self):
         node = TextNode("Some **bold** text", TextType.NORMAL)
         new_nodes = split_nodes_delimiter([node], "**", TextType.BOLD)
