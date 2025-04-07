@@ -5,6 +5,15 @@ from parentnode import *
 
 import re
 
+def text_to_textnodes(text):
+    delim_types = [("**", TextType.BOLD), ("_", TextType.ITALIC), ("`", TextType.CODE)]
+
+    result = split_nodes_link(split_nodes_image([TextNode(text, TextType.NORMAL)]))
+    for delim, type in delim_types:
+        result = split_nodes_delimiter(result, delim, type)
+
+    return result
+
 def extract_markdown_images(text):
     return re.findall(r"!\[([^\[\]]*)\]\(([^\(\)]*)\)", text)
 
