@@ -15,6 +15,8 @@ class TestInlineFunctions(unittest.TestCase):
     def test_block_to_block_type_code(self):
         block = "```code\nin a\nblock```"
         self.assertEqual(block_to_block_type(block), BlockType.CODE)
+        block = "```code in one line```"
+        self.assertEqual(block_to_block_type(block), BlockType.CODE)
 
     def test_block_to_block_type_quote(self):
         block = ">quote\n>block"
