@@ -27,9 +27,8 @@ def copy_files(origin, destination):
 
 def extract_title(markdown):
     for line in markdown.split("\n"):
-        parts = line.split(" ", 1)
-        if parts[0] == "#":
-            return parts[1].strip()
+        if line.startswith("# "):
+            return line.split(" ", 1)[1].strip()
     raise Exception("no h1 header")
 
 def main():
