@@ -49,7 +49,15 @@ def code_to_html_node(markdown):
     return ParentNode("pre", [ParentNode("code", [child])])
 
 def quote_to_html_node(markdown):
-    text_nodes = text_to_textnodes(markdown.replace("> ", "").replace("\n"," "))
+    lines = []
+    for line in markdown.split("\n"):
+        parts = line.split(" ", 1)
+        if len(parts) == 1:
+            lines.append("&nbsp;")
+        else:
+            lines.append(parts[1])
+    markdown = "\n".join(lines)
+    text_nodes = text_to_textnodes(markdown.replace("> ", ""))
     quote = ParentNode("blockquote", [])
     for node in text_nodes:
         quote.children.append(text_node_to_hmtl_node(node))
