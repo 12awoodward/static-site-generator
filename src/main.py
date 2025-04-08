@@ -25,6 +25,13 @@ def copy_files(origin, destination):
             os.mkdir(new_dst)
             copy_files(item_path, new_dst)
 
+def extract_title(markdown):
+    for line in markdown.split("\n"):
+        parts = line.split(" ", 1)
+        if parts[0] == "#":
+            return parts[1].strip()
+    raise Exception("no h1 header")
+
 def main():
     copy_files("static", "public")
 
