@@ -3,7 +3,7 @@ from markdown_to_html import *
 import os
 import shutil
 
-def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
+def generate_pages_recursive(dir_path_content, template_path, dest_dir_path, basepath):
     print(f"content({dir_path_content})({os.path.exists(dir_path_content)})|template({template_path})({os.path.exists(template_path)})|dest({dest_dir_path})")
     if not(os.path.exists(dir_path_content) and os.path.exists(template_path)):
         raise Exception("invalid path")
@@ -14,12 +14,12 @@ def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
             filename_parts = item.split(".")
             if filename_parts[-1] == "md":
                 dest_path = os.path.join(dest_dir_path, filename_parts[0] + ".html")
-                generate_page(item_path, template_path, dest_path)
+                generate_page(item_path, template_path, dest_path, basepath)
         else:
             dest_path = os.path.join(dest_dir_path, item)
             generate_pages_recursive(item_path, template_path, dest_path)
 
-def generate_page(from_path, template_path, dest_path):
+def generate_page(from_path, template_path, dest_path, basepath):
     print(f"Generating page from {from_path} to {dest_path} using {template_path}")
     markdown = read_file(from_path)
     template = read_file(template_path)
@@ -27,6 +27,7 @@ def generate_page(from_path, template_path, dest_path):
     title = extract_title(markdown)
 
     html_page = template.replace("{{ Title }}", title).replace("{{ Content }}", html)
+    html_page = html_page.replace('href="/', f'href="{basepath}').replace('src="/', f'src="{basepath}')
     write_file(dest_path, html_page)
 
 
