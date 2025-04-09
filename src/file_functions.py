@@ -4,9 +4,6 @@ import os
 import shutil
 
 def generate_pages_recursive(dir_path_content, template_path, dest_dir_path, basepath):
-    if not(os.path.exists(dir_path_content) and os.path.exists(template_path)):
-        raise Exception("invalid path")
-    
     for item in os.listdir(dir_path_content):
         item_path = os.path.join(dir_path_content, item)
         if os.path.isfile(item_path):
@@ -43,13 +40,6 @@ def write_file(path, content):
         file.write(content)
 
 def copy_files(origin, destination):
-    if not(os.path.exists(origin) and os.path.exists(destination)):
-        raise Exception("invalid file location")
-    
-    if len(os.listdir(destination)) > 0:
-        shutil.rmtree(destination)
-        os.mkdir(destination)
-    
     for item in os.listdir(origin):
         item_path = os.path.join(origin, item)
         if os.path.isfile(item_path):
