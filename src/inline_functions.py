@@ -67,9 +67,9 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
             new_txt += char
             if new_txt[-len(delimiter):] == delimiter:
                 new_txt = new_txt[:-len(delimiter)]
-                if inside_delim:
+                if inside_delim and len(new_txt) > 0:
                     new_nodes.append(TextNode(new_txt, text_type))
-                else:
+                elif not(inside_delim) and len(new_txt) > 0:
                     new_nodes.append(TextNode(new_txt, TextType.NORMAL))
                 inside_delim = not inside_delim
                 new_txt = ""

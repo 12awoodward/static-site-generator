@@ -1,6 +1,6 @@
 import unittest
 
-from main import *
+from file_functions import *
 
 class TestMain(unittest.TestCase):
     def test_extract_title(self):

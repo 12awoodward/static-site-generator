@@ -53,7 +53,7 @@ def quote_to_html_node(markdown):
             lines.append("&nbsp;")
         else:
             lines.append(parts[1])
-    markdown = "\n".join(lines)
+    markdown = " ".join(lines)
     text_nodes = text_to_textnodes(markdown.replace("> ", ""))
     quote = ParentNode("blockquote", [])
     for node in text_nodes:
