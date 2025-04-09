@@ -4,7 +4,6 @@ import os
 import shutil
 
 def generate_pages_recursive(dir_path_content, template_path, dest_dir_path, basepath):
-    print(f"content({dir_path_content})({os.path.exists(dir_path_content)})|template({template_path})({os.path.exists(template_path)})|dest({dest_dir_path})")
     if not(os.path.exists(dir_path_content) and os.path.exists(template_path)):
         raise Exception("invalid path")
     
@@ -17,7 +16,7 @@ def generate_pages_recursive(dir_path_content, template_path, dest_dir_path, bas
                 generate_page(item_path, template_path, dest_path, basepath)
         else:
             dest_path = os.path.join(dest_dir_path, item)
-            generate_pages_recursive(item_path, template_path, dest_path)
+            generate_pages_recursive(item_path, template_path, dest_path, basepath)
 
 def generate_page(from_path, template_path, dest_path, basepath):
     print(f"Generating page from {from_path} to {dest_path} using {template_path}")
