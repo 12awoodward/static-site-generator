@@ -1,6 +1,7 @@
 import unittest
 
-from markdown_to_html import *
+from markdown_to_html import markdown_to_html_node
+
 
 class TestMarkdownToHTML(unittest.TestCase):
     def test_paragraphs(self):
@@ -11,7 +12,7 @@ class TestMarkdownToHTML(unittest.TestCase):
             html,
             "<div><p>This is <b>bolded</b> paragraph text in a p tag here</p><p>This is another paragraph with <i>italic</i> text and <code>code</code> here</p></div>",
         )
-    
+
     def test_headings(self):
         md = "# This is h1 heading\n\n### h3 heading\n\n###### This is another heading with _italic_ text and `code` here"
         node = markdown_to_html_node(md)
@@ -56,6 +57,7 @@ class TestMarkdownToHTML(unittest.TestCase):
             html,
             "<div><ol><li>This is an <b>ordered</b></li><li>list in a ol tag</li><li>with <i>italic</i> text and <code>code</code> here</li></ol></div>",
         )
+
 
 if __name__ == "__main__":
     unittest.main()

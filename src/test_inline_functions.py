@@ -1,10 +1,24 @@
 import unittest
 
-from inline_functions import *
+from inline_functions import (
+    text_to_textnodes,
+    split_nodes_image,
+    split_nodes_link,
+    split_nodes_delimiter,
+    extract_markdown_images,
+    extract_markdown_links,
+    text_node_to_hmtl_node,
+)
+from textnode import TextNode, TextType
+
 
 class TestInlineFunctions(unittest.TestCase):
     def test_text_to_textnodes(self):
-        nodes = text_to_textnodes("This is **text** with an _italic_ word and a `code block` and an ![obi wan image](https://i.imgur.com/fJRm4Vk.jpeg) and a [link](https://boot.dev)")
+        nodes = text_to_textnodes(
+            "This is **text** with an _italic_ word and a `code block` and an "
+            "![obi wan image](https://i.imgur.com/fJRm4Vk.jpeg) and a "
+            "[link](https://boot.dev)"
+        )
         result = [
             TextNode("This is ", TextType.NORMAL),
             TextNode("text", TextType.BOLD),
@@ -13,28 +27,34 @@ class TestInlineFunctions(unittest.TestCase):
             TextNode(" word and a ", TextType.NORMAL),
             TextNode("code block", TextType.CODE),
             TextNode(" and an ", TextType.NORMAL),
-            TextNode("obi wan image", TextType.IMAGE, "https://i.imgur.com/fJRm4Vk.jpeg"),
+            TextNode(
+                "obi wan image", TextType.IMAGE, "https://i.imgur.com/fJRm4Vk.jpeg"
+            ),
             TextNode(" and a ", TextType.NORMAL),
             TextNode("link", TextType.LINK, "https://boot.dev"),
         ]
         self.assertEqual(nodes, result)
 
     def test_split_images(self):
-        node = TextNode("some text ![an image](/a-link/) more text [a link](/url/)", TextType.NORMAL)
+        node = TextNode(
+            "some text ![an image](/a-link/) more text [a link](/url/)", TextType.NORMAL
+        )
         new_nodes = split_nodes_image([node])
         result = [
             TextNode("some text ", TextType.NORMAL),
             TextNode("an image", TextType.IMAGE, "/a-link/"),
-            TextNode(" more text [a link](/url/)", TextType.NORMAL)
+            TextNode(" more text [a link](/url/)", TextType.NORMAL),
         ]
         self.assertEqual(new_nodes, result)
 
     def test_split_links(self):
-        node = TextNode("some text ![an image](/a-link/) more text [a link](/url/)", TextType.NORMAL)
+        node = TextNode(
+            "some text ![an image](/a-link/) more text [a link](/url/)", TextType.NORMAL
+        )
         new_nodes = split_nodes_link([node])
         result = [
             TextNode("some text ![an image](/a-link/) more text ", TextType.NORMAL),
-            TextNode("a link", TextType.LINK, "/url/")
+            TextNode("a link", TextType.LINK, "/url/"),
         ]
         self.assertEqual(new_nodes, result)
 
@@ -54,7 +74,7 @@ class TestInlineFunctions(unittest.TestCase):
         result = [
             TextNode("Some ", TextType.NORMAL),
             TextNode("bold", TextType.BOLD),
-            TextNode(" text", TextType.NORMAL)
+            TextNode(" text", TextType.NORMAL),
         ]
         self.assertEqual(new_nodes, result)
 
@@ -64,7 +84,7 @@ class TestInlineFunctions(unittest.TestCase):
         result = [
             TextNode("Some ", TextType.NORMAL),
             TextNode("italic", TextType.ITALIC),
-            TextNode(" text", TextType.NORMAL)
+            TextNode(" text", TextType.NORMAL),
         ]
         self.assertEqual(new_nodes, result)
 
@@ -74,7 +94,7 @@ class TestInlineFunctions(unittest.TestCase):
         result = [
             TextNode("Some ", TextType.NORMAL),
             TextNode("code", TextType.CODE),
-            TextNode(" text", TextType.NORMAL)
+            TextNode(" text", TextType.NORMAL),
         ]
         self.assertEqual(new_nodes, result)
 
@@ -120,7 +140,7 @@ class TestInlineFunctions(unittest.TestCase):
         self.assertEqual(html_node.value, "This is a text node")
         self.assertEqual(html_node.tag, "a")
         self.assertEqual(html_node.children, None)
-        self.assertEqual(html_node.props, {"href":"/url/"})
+        self.assertEqual(html_node.props, {"href": "/url/"})
 
     def test_text_to_html_image(self):
         node = TextNode("This is a text node", TextType.IMAGE, "/url/")
@@ -128,7 +148,10 @@ class TestInlineFunctions(unittest.TestCase):
         self.assertEqual(html_node.value, "")
         self.assertEqual(html_node.tag, "img")
         self.assertEqual(html_node.children, None)
-        self.assertEqual(html_node.props, {"src":"/url/","alt":"This is a text node"})
+        self.assertEqual(
+            html_node.props, {"src": "/url/", "alt": "This is a text node"}
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

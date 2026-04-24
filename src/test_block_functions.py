@@ -1,6 +1,7 @@
 import unittest
 
-from block_functions import *
+from block_functions import block_to_block_type, markdown_to_blocks, BlockType
+
 
 class TestBlockFunctions(unittest.TestCase):
     def test_block_to_block_type_paragraph(self):
@@ -30,7 +31,11 @@ class TestBlockFunctions(unittest.TestCase):
         self.assertEqual(block_to_block_type(block), BlockType.ORDERED_LIST)
 
     def test_markdown_to_blocks(self):
-        md = "This is **bolded** paragraph\n\nThis is another paragraph with _italic_ text and `code` here\nThis is the same paragraph on a new line\n\n- This is a list\n- with items"
+        md = (
+            "This is **bolded** paragraph\n\nThis is another paragraph with "
+            "_italic_ text and `code` here\nThis is the same paragraph on a new "
+            "line\n\n- This is a list\n- with items"
+        )
         blocks = markdown_to_blocks(md)
         result = [
             "This is **bolded** paragraph",
@@ -38,6 +43,7 @@ class TestBlockFunctions(unittest.TestCase):
             "- This is a list\n- with items",
         ]
         self.assertEqual(blocks, result)
+
 
 if __name__ == "__main__":
     unittest.main()

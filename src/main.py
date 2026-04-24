@@ -1,12 +1,25 @@
-from file_functions import *
+from file_functions import copy_files, generate_pages_recursive
 
+import os
+import shutil
 import sys
 
-def build_site(static_files, content_files, template, destination, basepath):
-    if not(os.path.exists(static_files) and os.path.exists(content_files) and os.path.exists(template)):
+
+def build_site(
+    static_files: str,
+    content_files: str,
+    template: str,
+    destination: str,
+    basepath: str,
+):
+    if not (
+        os.path.exists(static_files)
+        and os.path.exists(content_files)
+        and os.path.exists(template)
+    ):
         raise Exception("invalid file path")
-    
-    if not(os.path.exists(destination)):
+
+    if not (os.path.exists(destination)):
         os.mkdir(destination)
     elif len(os.listdir(destination)) > 0:
         shutil.rmtree(destination)
@@ -14,6 +27,7 @@ def build_site(static_files, content_files, template, destination, basepath):
 
     copy_files(static_files, destination)
     generate_pages_recursive(content_files, template, destination, basepath)
+
 
 def main():
     basepath = "/"
@@ -26,5 +40,6 @@ def main():
     dest_dir = "docs"
 
     build_site(static_files_dir, content_files_dir, template_file, dest_dir, basepath)
+
 
 main()
